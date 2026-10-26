@@ -52,8 +52,8 @@ No local setup? Each notebook has an *Open in Colab* badge above and a one-line 
 | 01 | 2 | 6 | 2 | 3 |
 | 02 | — | 1 | 2 | 1,136 |
 | 03 | +1 | 18 | 1 | — |
-| 04 | +1 (+1 with an endpoint) | 2 | 0 (1 with an endpoint) | 419 |
-| **All** | **4–5** | **27** | **5–6** | **~1,560** |
+| 04 | +1 (+1 while the endpoint runs) | 2 | 0 (1 with an endpoint) | 419 |
+| **All** | **4** (5 at most) | **27** | **5–6** | **~1,560** |
 
 The free plan allows 10 models, 500 explanations, 20 analyses and 5,000 predictions a month. Re-running a notebook replaces the models it created, along with what they logged, so running everything again doesn't add to these totals.
 
