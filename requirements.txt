@@ -1,10 +1,3 @@
-# The Kaimei demo notebook (notebooks/kaimei-demo.ipynb)
-kaimei[models]>=0.6.0
-scikit-learn>=1.3
-pandas>=2.0
-matplotlib>=3.7
-jupyterlab>=4.0
-
-# Only the original Kaggle notebook (notebooks/titanic-guide-with-sklearn-and-eda.ipynb)
-seaborn>=0.13
-xgboost>=2.0
+# Everything the notebooks need: this example's helpers (src/titanic_kaimei) plus Jupyter,
+# XGBoost and the scoring service. Equivalent to: pip install -e ".[notebooks]"
+-e .[notebooks]

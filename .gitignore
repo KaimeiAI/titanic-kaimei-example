@@ -218,3 +218,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# This example
+outputs/
+notebooks/titanic.csv
+.ruff_cache/
