@@ -119,6 +119,8 @@ plot_explanation(explanation)
 - **Any other model:** register an HTTP scoring endpoint with `inference={"type": "remote", "url": ...}`, or send attributions you compute yourself (notebook 04).
 - **Weights that must stay private:** `weights="summary"` uploads shapes only.
 
+In a notebook, every record Kaimei returns (a model, an explanation, an insight, a list) displays as a card laid out like the dashboard, as in notebooks 01–03. For the plain numbers, `explanation.to_frame()` returns a pandas DataFrame and `explanation.to_json()` the API's JSON, and `kaimei.set_display("raw")` turns the cards off.
+
 The [Python client documentation](https://github.com/KaimeiAI/kaimei-python-client#readme) covers each call, and every call is also plain REST (`https://api.kaimei.ai/v1/...`).
 
 ## Repository layout
