@@ -21,7 +21,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-# XGBoost: notebook 00 (the original Kaggle comparison) and notebook 04 (bring your own model).
+# XGBoost: notebook 00 (the original Kaggle comparison).
 xgboost = ["xgboost>=2.0"]
 # The scoring service for Kaimei's remote inference (notebook 04, python -m titanic_kaimei.serving).
 serve = ["fastapi>=0.110", "uvicorn>=0.27"]

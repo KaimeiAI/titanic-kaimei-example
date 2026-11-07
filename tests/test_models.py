@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import pytest
+from kaimei import StructureError
 from kaimei.structure import extract_structure, spec_is_executable
 
 from titanic_kaimei import COLUMNS_V1, COLUMNS_V2, encode, load
@@ -32,14 +33,23 @@ def test_logistic_uploads_with_its_scaler(v1):
     assert spec_is_executable(spec)
 
 
-def test_xgboost_uploads_as_a_summary_only(v1):
-    pytest.importorskip("xgboost")
-    from titanic_kaimei.models import make_xgboost
+def test_knn_cant_be_read_for_kaimei_to_run(v1):
+    from titanic_kaimei.models import make_knn
 
     X, y = v1
-    model = make_xgboost().fit(X, (y == "survived").astype(int))
-    spec = extract_structure(model, feature_names=COLUMNS_V1).spec
-    assert not spec_is_executable(spec)  # why notebook 04 brings its own SHAP values or an endpoint
+    with pytest.raises(StructureError):  # why notebook 04 brings its own Shapley values or an endpoint
+        extract_structure(make_knn().fit(X, y), feature_names=COLUMNS_V1)
+
+
+def test_shapley_values_add_up_to_the_probability(v1):
+    from titanic_kaimei.models import make_knn, shapley_values
+
+    X, y = v1
+    model = make_knn().fit(X, (y == "survived").astype(int))
+    rows, background = X.iloc[:3], X.iloc[10:18]
+    values, base = shapley_values(model, rows, background, permutations=2)
+    assert values.shape == (3, X.shape[1])
+    assert base + values.sum(axis=1) == pytest.approx(model.predict_proba(rows)[:, 1])
 
 
 def test_accuracy_matches_the_notebooks(v1):

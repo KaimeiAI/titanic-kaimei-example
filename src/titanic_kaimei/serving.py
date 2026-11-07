@@ -82,20 +82,20 @@ def serve_in_background(app: Any, *, host: str = "127.0.0.1", port: int = 0) -> 
 
 
 def train_default_model() -> Any:
-    """The XGBoost model of notebook 04, trained on the v1 features."""
-    from .models import make_xgboost, split
+    """The k-nearest neighbours model of notebook 04, trained on the v1 features."""
+    from .models import make_knn, split
 
     titanic = load(1)
     X = encode(titanic.passengers)
     y = (titanic.survived == "survived").astype(int)
     X_train, _, y_train, _ = split(X, y)
-    return make_xgboost().fit(X_train, y_train)
+    return make_knn().fit(X_train, y_train)
 
 
 def main() -> None:
     import uvicorn
 
-    parser = argparse.ArgumentParser(description="Serve the Titanic XGBoost model for Kaimei's remote inference.")
+    parser = argparse.ArgumentParser(description="Serve the Titanic kNN model for Kaimei's remote inference.")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8080)
     parser.add_argument("--api-key", default="", help="Require this bearer token on /predict.")

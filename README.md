@@ -26,7 +26,7 @@ Run them in order; each takes about a minute. Notebooks 01 to 04 need a free Kai
 | 01 | [Explain a model](notebooks/01-explain-a-model.ipynb) [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/KaimeiAI/titanic-kaimei-example/blob/main/notebooks/01-explain-a-model.ipynb) | Why one passenger died; which ticket would have saved him; two models that disagree; what the forest learned overall | model upload, feature schema, SHAP explanations, counterfactuals, explanation methods, full analysis |
 | 02 | [Monitor in production](notebooks/02-monitor-in-production.ipynb) [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/KaimeiAI/titanic-kaimei-example/blob/main/notebooks/02-monitor-in-production.ipynb) | Two weeks of traffic with a shadow model, then a feed that sends fares in pence, caught by drift detection | hosted predictions, logging predictions, shadow models, drift analysis, explaining a logged prediction |
 | 03 | [Improve and version](notebooks/03-improve-and-version.ipynb) [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/KaimeiAI/titanic-kaimei-example/blob/main/notebooks/03-improve-and-version.ipynb) | Error analysis with explanations; better features; v2 shipped as a new version and compared with v1 | batch explanations, model versions, schema updates, comparing insights |
-| 04 | [Bring your own model](notebooks/04-bring-your-own-model.ipynb) [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/KaimeiAI/titanic-kaimei-example/blob/main/notebooks/04-bring-your-own-model.ipynb) | XGBoost: explained with its own TreeSHAP values, and through a scoring endpoint Kaimei calls | pre-computed attributions, remote inference, private weights |
+| 04 | [Bring your own model](notebooks/04-bring-your-own-model.ipynb) [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/KaimeiAI/titanic-kaimei-example/blob/main/notebooks/04-bring-your-own-model.ipynb) | k-nearest neighbours: explained with Shapley values computed locally, and through a scoring endpoint Kaimei calls | pre-computed attributions, remote inference, private weights |
 
 ## Quick start
 
@@ -115,7 +115,7 @@ print(explanation_summary(explanation))
 plot_explanation(explanation)
 ```
 
-- **Models Kaimei runs itself:** scikit-learn linear models, trees, forests of up to 30 trees, MLPs and scaler pipelines; Keras/TensorFlow and PyTorch networks.
+- **Models Kaimei runs itself:** scikit-learn linear models, trees, forests and boosted trees of any size, XGBoost, LightGBM and CatBoost, MLPs and scaler pipelines; Keras/TensorFlow and PyTorch networks whose layers run one after another.
 - **Any other model:** register an HTTP scoring endpoint with `inference={"type": "remote", "url": ...}`, or send attributions you compute yourself (notebook 04).
 - **Weights that must stay private:** `weights="summary"` uploads shapes only.
 
@@ -130,7 +130,7 @@ The [Python client documentation](https://github.com/KaimeiAI/kaimei-python-clie
 ├── src/titanic_kaimei/   the code the notebooks share
 │   ├── data.py           load the Kaggle files; v1 and v2 features; encoding
 │   ├── schema.py         Kaimei feature schemas
-│   ├── models.py         the forest, logistic regression and XGBoost
+│   ├── models.py         the forest, logistic regression and kNN
 │   ├── workspace.py      connect to Kaimei; idempotent uploads and analyses
 │   └── serving.py        a FastAPI scoring service for Kaimei's remote inference
 ├── data/                 Kaggle's train.csv and test.csv (see data/README.md)

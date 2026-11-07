@@ -2,7 +2,7 @@
 
 * :mod:`titanic_kaimei.data` loads the Kaggle files and builds the v1 / v2 features.
 * :mod:`titanic_kaimei.schema` holds the Kaimei feature schemas.
-* :mod:`titanic_kaimei.models` trains the forest, logistic regression and XGBoost models.
+* :mod:`titanic_kaimei.models` trains the forest, logistic regression and k-nearest neighbours models.
 * :mod:`titanic_kaimei.workspace` connects to Kaimei and keeps re-runs idempotent.
 * :mod:`titanic_kaimei.serving` is a scoring service for Kaimei's remote inference.
 """

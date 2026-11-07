@@ -14,13 +14,15 @@ from kaimei import Kaimei, NotFoundError
 
 PROJECT_SLUG = "titanic"
 #: The slugs this example creates (and replaces when a notebook is run again).
-FOREST, LOGISTIC, FOREST_V2, XGBOOST, XGBOOST_REMOTE = (
+FOREST, LOGISTIC, FOREST_V2, KNN, KNN_REMOTE = (
     "titanic-forest",
     "titanic-logistic",
     "titanic-forest-v2",
-    "titanic-xgboost",
-    "titanic-xgboost-remote",
+    "titanic-knn",
+    "titanic-knn-remote",
 )
+#: What notebook 04 registered before it used k-nearest neighbours. It removes them, so they don't use up a plan.
+RETIRED = ("titanic-xgboost", "titanic-xgboost-remote")
 
 
 def connect(*, quiet: bool = False) -> Kaimei:
@@ -96,6 +98,14 @@ def replace_model(client: Kaimei, estimator: Any, *, slug: str, **upload: Any) -
     """``client.models.upload`` after deleting a previous upload with the same slug."""
     delete_if_exists(client, slug)
     return client.models.upload(estimator, slug=slug, **upload)
+
+
+def replace_registration(client: Kaimei, *, slug: str, rows: Any, labels: Any, **fields: Any) -> Any:
+    """``client.models.create`` for a model with nothing to upload, replacing a previous one, with reference data."""
+    delete_if_exists(client, slug)
+    model = client.models.create(slug=slug, **fields)
+    client.models.upload_reference_data(slug, rows=rows, labels=labels)
+    return model
 
 
 def run_analysis(client: Kaimei, model: str, kind: str = "full", *, seed: Optional[int] = 0) -> Dict[str, Any]:
